@@ -1,85 +1,80 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import gsap from "gsap";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Longs, Shorts } from "./components/line";
+import Roadmap from "./components/shared/Roadmap";
+import MoreToCome from "./components/shared/MoreToCome";
+import Link from "next/link";
 
 export default function Home() {
   useEffect(() => {
     const blob = document.querySelector(".blob");
 
-    // Blob animation for idle state
-    const idleAnimation = gsap.to(blob, {
+    // Simplified idle animation
+    gsap.to(blob, {
       duration: 6,
-      x: "random(-50, 50)",
-      y: "random(-50, 50)",
-      scale: "random(0.8, 1.2)",
-      rotation: "random(-45, 45)",
+      scale: "random(0.9, 1.1)",
+      rotation: "random(-30, 30)",
       repeat: -1,
       yoyo: true,
       ease: "power1.inOut",
     });
-
-    // Blob follows cursor
-    const handleMouseMove = (e: MouseEvent) => {
-      idleAnimation.pause(); // Pause idle animation
-      const { clientX, clientY } = e;
-      const { innerWidth, innerHeight } = window;
-
-      const x = (clientX / innerWidth) * 100 - 50;
-      const y = (clientY / innerHeight) * 100 - 50;
-
-      gsap.to(blob, {
-        duration: 1,
-        x: `${x}%`,
-        y: `${y}%`,
-        ease: "power3.out",
-      });
-    };
-
-    // Blob returns to center when cursor leaves
-    const handleMouseLeave = () => {
-      gsap.to(blob, {
-        duration: 1,
-        x: "-50%",
-        y: "-50%",
-        ease: "power3.out",
-      });
-      idleAnimation.resume(); // Resume idle animation
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
-    };
   }, []);
 
   return (
-    <main className="relative w-full min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center overflow-hidden transition-colors duration-300">
-      {/* Floating Blob */}
-      <div
-        className="blob absolute w-80 h-80 md:w-96 md:h-96 bg-purple-400 opacity-50 rounded-full blur-3xl dark:bg-purple-700"
-        style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-      ></div>
+    <main className="md:pt-24 relative w-full min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center overflow-hidden transition-colors duration-300">
+        <div className="z-10 pt-20 text-center px-6 flex flex-col gap-[50px] justify-center items-center w-full">
+          <div className="flex flex-col gap-6 items-center text-center z-30">
+            <h1 className="max-w-[849px] text-2xl md:leading-[70px] md:text-[50px] font-bold text-gray-800 dark:text-gray-200">
+              Elevate Your Trading with Peeps. Precision, Simplicity, Success
+            </h1>
+            <Link href={"#road-map"}>
+              <Button className="rounded-[12px] font-medium text-[16px] md:text-[20px] w-[140px] md:w-[170px] h-[50px] md:h-[60px] z-30">
+                View Roadmap
+              </Button>
+            </Link>
+          </div>
+          <div className="relative">
+            {/* Longs SVG */}
+            <div className="absolute left-0 top-[-50%] md:left-[-20%] lg:top-[-70%]">
+              <Longs />
+            </div>
+            {/* Shorts SVG */}
+            <div className="absolute right-0 top-[-50%] md:right-[-20%] lg:top-[-70%]">
+              <Shorts />
+            </div>
 
-      {/* Content */}
-      <div className="z-10 text-center px-6">
-        <h1 className="text-2xl md:text-7xl font-bold text-gray-800 dark:text-gray-200">
-          Welcome to Peeps
-        </h1>
-        <p className="text-base md:text-2xl text-gray-600 dark:text-gray-400 mt-4">
-          There is currently no content available on this website.
-        </p>
-        <p className="text-base md:text-xl text-gray-600 dark:text-gray-400 mt-2">
-          Stay tuned for updates on{" "}
-          <strong className="text-[#524ABE] dark:text-[#8C7CFF]">
-            Monday, January 6th
-          </strong>
-          !
-        </p>
+            {/* Floating Blob */}
+            <div
+              className="blob absolute w-40 h-40 md:w-[500px] md:h-[500px] lg:w-[700px] lg:h-[700px] bg-purple-600 opacity-50 rounded-full blur-3xl dark:bg-purple-700"
+              style={{
+                top: "60%",
+                left: "50%",
+                transform: "translate(-50%, -65%)",
+              }}
+            ></div>
+
+            {/* Demo Image */}
+            <div className="relative z-20">
+              <Image
+                className="scale-90 md:scale-75"
+                src="/images/demo.png"
+                alt="demo"
+                width={940}
+                height={541}
+                priority
+              />
+            </div>
+          </div>
+        </div>
+        <Roadmap />
       </div>
+
+      <MoreToCome />
     </main>
   );
 }
