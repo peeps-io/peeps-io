@@ -42,7 +42,54 @@ const Roadmap: React.FC = () => {
         description:
           "Launch our official website to establish an online presence, provide detailed information about our products and services, and serve as a platform for customers to engage with our brand.",
       },
-      // ... other goals
+      {
+        label: "Alpha launch",
+        date: "8th, Jan, 2025",
+        description:
+          "Release the alpha version of our product for internal testing and feedback gathering. This early version will focus on validating core functionalities and identifying potential improvements.",
+      },
+      {
+        label: "Revamp of Product",
+        date: "28th, Jan, 2025",
+        description:
+          "Implement major improvements and redesigns to the product based on feedback received during the alpha phase. This update will refine user experience and optimize performance.",
+      },
+      {
+        label: "Beta Launch",
+        date: "4th, Feb, 2025",
+        description:
+          "Unveil the beta version to a select group of external users for broader testing. This phase aims to gather user insights, address bugs, and fine-tune features before the final release.",
+      },
+      {
+        label: "Second Product Revamp",
+        date: "27th, Feb, 2025",
+        description:
+          "Conduct a second round of updates to incorporate feedback from beta users, ensuring that the product meets high standards of quality and usability ahead of the official launch.",
+      },
+      {
+        label: "Pre-launch",
+        date: "1st, Mar, 2025",
+        description:
+          "Begin building anticipation for the official launch by rolling out marketing campaigns, engaging early adopters, and ensuring operational readiness for a seamless launch experience.",
+      },
+      {
+        label: "Launch of version 1.0",
+        date: "5th, Mar, 2025",
+        description:
+          "Release the official version 1.0 of our product to the public. This milestone marks the culmination of months of development and testing, delivering a polished product to our users.",
+      },
+      {
+        label: "Social Media Outreach",
+        date: "1st, Apr, 2025",
+        description:
+          "Launch a dedicated social media campaign to build brand awareness, connect with our audience, and share updates about our product’s journey and future plans.",
+      },
+      {
+        label: "Launch of version 2.0",
+        date: "4th, Jul, 2025",
+        description:
+          "Introduce version 2.0, featuring significant enhancements and new features based on user feedback and evolving market needs. This release aims to solidify our position in the industry.",
+      },
     ],
     []
   );
@@ -53,7 +100,14 @@ const Roadmap: React.FC = () => {
       "February 2025",
       "March 2025",
       "April 2025",
-      // ... other months
+      "May 2025",
+      "June 2025",
+      "July 2025",
+      "August 2025",
+      "September 2025",
+      "October 2025",
+      "November 2025",
+      "December 2025",
     ],
     []
   );
@@ -108,7 +162,7 @@ const Roadmap: React.FC = () => {
 
     if (!container) return;
 
-    ScrollTrigger.create({
+    const scrollTrigger = ScrollTrigger.create({
       trigger: container,
       start: "top top",
       end: "bottom+=500 top",
@@ -120,26 +174,20 @@ const Roadmap: React.FC = () => {
         const visibleDataPoints = Math.ceil(progress * dataLength);
 
         const slicedData = chartData.slice(0, visibleDataPoints);
-
         setChartDataState(slicedData);
 
-        const goalIndex = Math.floor(progress * goals.length);
-        gsap.to(
-          {},
-          {
-            duration: 0.3,
-            onUpdate: () => setActiveGoal(goals[goalIndex] || null),
-          }
+        const goalIndex = Math.min(
+          Math.floor(progress * goals.length),
+          goals.length - 1
         );
-
-        gsap.to(".recharts-line", {
-          duration: 1,
-          ease: "power3.out",
-          strokeDashoffset: 0,
-        });
+        setActiveGoal(goals[goalIndex]);
       },
     });
-  }, [fullData, goals, chartData]);
+
+    return () => {
+      scrollTrigger.kill();
+    };
+  }, [fullData, goals, chartData, activeGoal]);
 
   return (
     <section

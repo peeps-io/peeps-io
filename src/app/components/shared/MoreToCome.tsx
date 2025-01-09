@@ -86,12 +86,12 @@ const MoreToCome: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex shadow-xl h-screen p-6 z-30">
-      <div className="w-full h-full bg-white dark:bg-black text-gray-800 dark:text-gray-100 rounded-t-3xl max-w-6xl mx-auto text-center p-6 sm:p-12 z-30">
+    <div className="w-full flex shadow-xl h-screen z-[70] md:px-6">
+      <div className="w-full h-full bg-white dark:bg-black text-gray-800 dark:text-gray-100 rounded-t-3xl mx-auto text-center p-6 sm:p-12 z-30 shadow-xl">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6">
           There’s More to Come!
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8">
+        <p className="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-[600px] mx-auto">
           We’re working hard to bring you exciting new features and updates.
           Stay tuned as we continue to evolve and deliver a world-class
           experience.
@@ -155,7 +155,7 @@ const MoreToCome: React.FC = () => {
 
         {/* Email input */}
         <form
-          className=" flex flex-col items-center md:flex-row md:justify-between md:items-center md:gap-10"
+          className=" flex flex-col items-center md:flex-row md:items-center gap-10 max-w-[600px] mx-auto my-10"
           onSubmit={(e) => handleSubmit(e, { email })}
         >
           <Input
@@ -163,7 +163,7 @@ const MoreToCome: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className=" h-[50px] md:h-[60px] py-3 mb-4"
+            className=" h-[50px] md:h-[60px] py-3"
           />
 
           <Dialog>
